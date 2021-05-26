@@ -1,0 +1,7 @@
+
+.icon-home-1:before { content: '\e800'; } /* '' */
+.icon-home:before { content: '\e801'; } /* '' */
+.icon-user:before { content: '\e802'; } /* '' */
+.icon-mail-alt:before { content: '\f0e0'; } /* '' */
+.icon-calendar-empty:before { content: '\f133'; } /* '' */
+.icon-github:before { content: '\f300'; } /* '' */

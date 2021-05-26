@@ -1,8 +1,0 @@
-*.pyc
-*~
-myUI/__pycache__
-proj/__pycache__
-myvenv
-db.sqlite3
-myUI/static
-.DS_Store
