@@ -6,4 +6,3 @@ myvenv
 db.sqlite3
 myUI/static
 .DS_Store
-secrets.json
