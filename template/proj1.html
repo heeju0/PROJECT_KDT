@@ -1,0 +1,1285 @@
+{% load filter %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=KoHo&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round-otf@0.1.2/index.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="{% static 'icon/css/fontello.css' %}">
+    <link rel="stylesheet" href="{% static 'icon/css/animation.css' %}">
+    <!-- for jquery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!-- data table -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'KoHo', sans-serif;
+        }
+        .kor {
+            /* font-family: 'Noto Sans KR', sans-serif; */
+            /* font-family: 'NanumSquare', sans-serif */
+            font-family: 'nanum-square-round-otf', sans-serif;
+            margin-left: 20px;
+        }
+        .sidebar {
+            width: 180px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            flex-direction: column;
+            background-color: #333;
+            font-family: 'KoHo', sans-serif;
+            z-index: 1;
+        }
+        .profile-box {
+            margin-top: 50px;
+            width: 100px;
+            height: 100px;
+            /* float: center; */
+            /* top: 20px;
+            left: 20px; */
+            
+        }
+        .profile-name {
+            font-size: 10px;
+            margin-left: 0;
+            margin-top: 10px;
+        }
+        .profile {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid rgb(126, 125, 125);
+        }
+        .profile-box p {
+            color: white;
+            font-weight: 900;
+            font-size: 20px;
+            margin-top: 0;
+            text-align: center;
+            letter-spacing: 0.8px;
+        }
+        .my-link {
+            display: flex;
+            justify-content: center
+        }
+        .my-link i {
+            color: white;
+        }
+        .navigation {
+            letter-spacing: 1px;
+            width: 100%;
+            height: 16rem;
+            padding-left: 0;
+            list-style-type: none;
+            overflow: hidden;
+            background-color: #333;
+            color: white;
+            margin-top: 150px;
+        }
+        .btn {
+            height: 20px;
+            display:block;
+            background-color: #333;
+            color: white;
+            padding: 10px 8px 10px 8px;
+            margin-top: 10px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn:hover{
+            border-left:5px solid white;
+        }
+        .footer p {
+            margin-top: 330px;
+            color: white;
+            font-size: 12px;
+        }
+        .fixed_header {
+            width: 100%;
+            padding: 0px 0px 0px 180px;
+            /* border-top: 1px solid #333; */
+            font-size: 36px;
+            background-color: white;
+            color: #333;
+            top: 50px;
+            max-width: 820px;
+        }
+        .project-title {
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+        .project-title a {
+            color: #333;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 20px 0px 10px 25px;
+            display: inline-block;
+        }
+        .desc {
+            color: #333;
+            margin: -5px 0px 0px 25px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+        }
+        .desc p {
+            margin-right: 50px;
+        }
+        .desc i {
+            color: #333;
+        }
+        .text {
+            display: inline-block;
+            padding-left: 200px;
+            background-color: white;
+            color: #333;
+            max-width: 800px;
+        }
+        .pubg-img {
+            max-width: 780px;
+        }
+        .intro a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+        .data-description {
+            overflow: scroll;
+        }
+        .table {
+            font-size: 12px;
+            padding-left: 0;
+            margin-left: 10px;
+            text-align: left;
+        }
+        .double-chart {
+            display: flex;
+            justify-content: space-between;
+            width: 400px;
+            height: 300px;
+        }
+        .flex-chart {
+            display: flex;
+            justify-content: space-between;
+            width: 265px;
+            height: 380px;
+        }
+        .the-end {
+            text-align: center;
+            padding-left: 200px;
+            margin-top: 100px;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="profile-box">
+            <img class="profile" src="{% static 'img/jjangu3.png' %}">
+            <div class="profile-name">
+                <p>Heeju</p>
+            </div>
+            <div class="my-link">
+                <a href="https://heeju0.github.io/willbe/">
+                    <i class="icon-home"></i>
+                </a>
+                <a href="https://github.com/heeju0">
+                    <i class="icon-github"></i>
+                </a>
+            </div>
+        </div>
+        <ul class="navigation">
+            <li><a href="/" class="btn">Home</a></li>
+            <li><a href="/proj1" class="btn current">Project #1</a></li>
+            <li><a href="/admin" class="btn">Admin</a></li>
+        </ul>
+        <div class="footer">
+            <p>Copyright © HEEJU LEE</p>
+        </div>
+    </div>
+    <div class='fixed_header'>
+        <nav class="project-title">
+            <a href='/dashboard'>Project #1 EDA</a>
+        </nav>
+        <div class="desc">
+            <p><i class="icon-calendar-empty"></i> 2021-05-25</p>
+            <p><i class="icon-user"></i> 1</p>
+        </div>
+    </div>
+    <div class="text">
+        <div class="intro">
+            <p class="kor">
+                kaggle의 <a href="https://www.kaggle.com/c/pubg-finish-placement-prediction">PUBG 데이터 셋</a>을 사용하여 EDA를 진행했다.
+            </p>
+            <img class="pubg-img" src="https://wallpaperaccess.com/full/678903.jpg"></img>
+            <p class="kor">
+                PUBG 데이터는 PUBG 게임 내 약 48000개의 매치에 대한 데이터이며,
+                해당 Competition의 목적은 각 유저가 우승할 확률을 예측하는 것이지만
+                이 글은 EDA가 목적이므로 Feature Engineering이나 모델링은 수행하지 않았다.
+            </p>
+        </div>
+        <div class="part1">
+            <h1>1. PUBG dataset</h1>
+            <div>
+                <h3>📚 Column Description</h3>
+                <table id="columnsTable" class="table">
+                    <thead>
+                        <tr>
+                            {% for c in col_desc_column %}
+                            <th scope="col">{{ c }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in col_desc %}
+                        <tr>
+                            {% for c in r %}
+                            <td>{{ c }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h3>📚 Statistics Description</h3>
+                <table id="statsTable" class="table">
+                    <thead>
+                        <tr>
+                            {% for c in desc_column %}
+                            <th scope="col">{{ c }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in desc %}
+                        <tr>
+                            {% for c in r %}
+                            <td>{{ c }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p class="kor">
+                    총 4,446,966개의 행이 있다.<br>
+                    75% 이상의 대부분이 assist 전적이 없으며, boost 아이템 사용 횟수 또한 절반 이상이 0이다.
+                    이외에도 DBNO, headshotKill, heal 등의 feature에 대해 많은 유저들의 결과가 0임을 확인할 수 있다.
+                    <br>
+                    <br>
+                    EDA 하는 과정에서 거리와 관련된 데이터들은 사용하지 않았으며, 이벤트 매치나 커스텀 매치는 제외한 정규 게임에 대해서만 다루었다.
+                </p>
+            </div>
+        </div>
+        <div class="part2">
+            <h1>2. Kill Distribution</h1>
+            <div>
+                <h3>📚 Bar Chart</h3>
+                <canvas id="killGraph" width="200" height="100"></canvas>
+                <p class="kor">
+                    kill이 없는 유저가 가장 많으며, 33kill을 한 유저도 존재한다.
+                </p>
+            </div>
+            <div>
+                <h3>📚 Box Plot</h3>
+                <div id="KillBoxPlot"></div>
+                <p class="kor">
+                    kill이 8 이상인 유저는 하나의 그룹으로 묶고, 각 kill에 대한 박스플롯을 시각화하여 분포를 확인했다.
+                    전체적으로 kill 수가 증가할수록 우승 확률이 높아지며, 이상값의 폭이 넓어지는 것을 확인할 수 있다.
+                </p>
+                <h3>📚 Outliers</h3>
+                <table id="outlierTable" class="table" style="width: 50%">
+                    <thead>
+                        <tr>
+                            <th scope="col">column</th>
+                            <th scope="col">origins_corr</th>
+                            <th scope="col">outliers_corr</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>kills</th>
+                            <td>0.547272</td>
+                            <td>-0.527802</td>
+                        </tr>
+                        <tr>
+                            <th>damageDealt</th>
+                            <td>0.538219</td>
+                            <td>-0.390716</td>
+                        </tr>
+                        <tr>
+                            <th>killStreaks</th>
+                            <td>0.518538</td>
+                            <td>-0.720480</td>
+                        </tr>
+                        <tr>
+                            <th>longestKill</th>
+                            <td>0.476355</td>
+                            <td>-0.262116</td>
+                        </tr>
+                        <tr>
+                            <th>DBNOs</th>
+                            <td>0.375132</td>
+                            <td>-0.497479</td>
+                        </tr>
+                        <tr>
+                            <th>headshotKills</th>
+                            <td>0.352532</td>
+                            <td>-0.342006</td>
+                        </tr>
+                        <tr>
+                            <th>killPlace</th>
+                            <td>-0.791819</td>
+                            <td>0.606757</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="kor">
+                    위의 박스플롯에서 이상값으로 분류된 데이터와 아닌 데이터들에 대해 우승 확률과의 상관 관계를 비교하였다.<br>
+                    상관계수의 부호가 바뀌고 상관계수의 절댓값이 0.2 이상인 feature는 kills, damageDealt, killStreaks, longestKill, DBNOs, headshotKills, killPlace였다.<br>
+                </p>
+                <div class="double-chart">
+                    <canvas id="outlierRatePerTier" width="400px" height="300px"></canvas>
+                    <canvas id="outlierRatePerType" width="400px" height="300px"></canvas>
+                </div>
+                <p class="kor">
+                    또한 티어가 올라갈수록 이상값의 비율이 커졌으며, solo 모드 보다는 여럿이 플레이할수록 비율이 높아짐을 확인하였다.
+                </p>
+            </div>
+        </div>
+        <div class="part3">
+            <h1>3. Kill vs. other features</h1>
+            <div>
+                <h3>📚 Kill vs. WinPlacePerc</h3>
+                <canvas id="killWinPlacePerc"></canvas>
+            </div>
+            <div>
+                <h3>📚 assists/DBNOs/damageDealt vs. Kill</h3>
+                <div class="flex-chart">
+                    <canvas id="KillAssists" height="400px"></canvas>
+                    <canvas id="KillDBNOs" height="400px"></canvas>
+                    <canvas id="KillDamageDealt" height="400px"></canvas>
+                </div>
+                <p class="kor" style="text-decoration: line-through;">
+                    산점도는 로딩 시간이 너무 오래 걸려서 넣지 못했다.
+                </p>
+                <p class="kor">
+                    assist는 kill의 값이 커질수록 상관성이 약해졌으나, DBNOs와 damageDealt feature는 kill과 상관관계가 높음을 확인할 수 있다.
+                </p>
+            </div>
+        </div>
+        <div class="part4">
+            <h1>4. Match Type</h1>
+            <div>
+                <h3>📚 numGroups vs. matchDuration</h3>
+                <canvas id="numGroupsMatchDuration"></canvas>
+            </div>
+            <p class="kor">
+                각 매치당 그룹 수에 따라 해당 매치의 지속 시간이 어떻게 변하는지 파악하기 위해 선 그래프로 나타내었으나,
+                유의미한 결과는 얻지 못하였다.
+            </p>
+            <div>
+                <h3>📚 numGroups vs. matchDuration per Match Type</h3>
+                <div class="flex-chart">
+                    <canvas id="numGroupsMatchDurationSquad" height="400px"></canvas>
+                    <canvas id="numGroupsMatchDurationDuo" height="400px"></canvas>
+                    <canvas id="numGroupsMatchDurationSolo" height="400px"></canvas>
+                </div>
+            </div>
+            <p class="kor">
+                매치 타입(solo, duo, sqaud)별로 그룹 수와 매치 지속 시간을 비교하였다.<br>
+                그룹 수가 매우 적은 경우를 제외하고는 그룹 수가 증가할수록 매치 지속 시간이 줄어드는 경향이 있음을 확인할 수 있다.
+            </p>
+            <div>
+                <h3>📚 Kill vs. winPlacePerc per Match Type</h3>
+                <canvas id="killWinPlacePercPerMatchType"></canvas>
+            </div>
+            <p class="kor">
+                매치 타입별로 kill과 우승 확률과의 관계를 확인하였다.<br>
+                kill이 많을수록 우승 확률이 증가하나, squad 모드의 경우 약간의 변수가 있는 것으로 보인다.
+            </p>
+        </div>
+        <div class="part5">
+            <h1>5. Tier</h1>
+            <div>
+                <h3>📚 numGroups vs. matchDuration per Tier</h3>
+                <div class="flex-chart">
+                    <canvas id="numGroupsMatchDurationBronze" height="400px"></canvas>
+                    <canvas id="numGroupsMatchDurationSilver" height="400px"></canvas>
+                    <canvas id="numGroupsMatchDurationGold" height="400px"></canvas>
+                </div>
+                <div class="flex-chart">
+                    <canvas id="numGroupsMatchDurationPlatinum" height="400px"></canvas>
+                    <canvas id="numGroupsMatchDurationDiamond" height="400px"></canvas>
+                    <canvas id="numGroupsMatchDurationMaster" height="400px"></canvas>
+                </div>
+                <p class="kor">
+                    티어별로 그룹 수와 매치 지속 시간을 비교해보고자 하였으나, 유의미한 결과를 얻지 못하였다.
+                </p>
+            </div>
+            <div>
+                <h3>📚 Kill vs. winPlacePerc per Tier</h3>
+                <canvas id="killWinPlacePercPerTier"></canvas>
+            </div>
+            <p class="kor">
+                티어에 관계없이 kill이 많을수록 우승 확률이 증가하는 경향이 있으며, 높은 티어에서는 예외 상황이 많이 발생한 것으로 보인다.
+            </p>
+        </div>
+        <div class="part6">
+            <h1>6. Conclusion</h1>
+            <p class="kor">
+                kill 수가 많을수록 우승 확률이 높아지지만, 그만큼 예외의 경우(이상값)도 많아진다. 
+                티어가 높아질수록, 그리고 여럿이 함께 플레이할수록 예외 상황의 비율이 높아진다.<br>
+                kill이 많을수록 우승 확률이 증가하는 경향성은 티어에 관계없이 동일하지만, 높은 티어일수록 예외 상황이 더 많이 발생한 것으로 보인다.<br>
+                <br>
+                assist와 DBNOs, damageDealt는 전적 기록에도 포함하는 feature이기 때문에 
+                kill과의 상관관계가 매우 높을 것이라고 생각했으나, assist의 경우에는 kill 값이 커짐에 따라 변동이 많았다.<br>
+                <br>
+                + 더 해보고 싶은 분석: teamKill 기록이 있는 유저들의 특성 분석
+            </p>
+        </div>
+    </div>
+    <div class="the-end">
+        <p class="kor">
+            ◇◆◇
+        </p>
+    </div>
+</body>
+
+<!-- table -->
+<script>
+    $(document).ready(function () {
+        $('#statsTable').DataTable(
+            {
+                'paging': false,
+                'filter': false,
+                'lengthChange': false,
+                'info': false,
+                'scrollX': true,
+                'order': false,
+            }
+        );
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#columnsTable').DataTable(
+            {
+                'paging': false,
+                'filter': false,
+                'lengthChange': false,
+                'info': false,
+                'scrollX': false,
+                'order': false,
+            }
+        );
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#outlierTable').DataTable(
+            {
+                'paging': false,
+                'filter': false,
+                'lengthChange': false,
+                'info': false,
+                'scrollX': false,
+                'order': false,
+            }
+        );
+    });
+</script>
+<!-- kill distribution -->
+<script>
+var ctx = document.getElementById('killGraph').getContext('2d');
+var killGraph = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ kills }},
+        datasets: [{
+            label: 'kills',
+            data: {{ kill_counts }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+            ],
+            borderwidth: 1,
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Kill',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Count',
+                }
+            }
+        }
+    }
+});
+</script>
+<!-- outlier -->
+<script>
+var ctx = document.getElementById('outlierRatePerTier').getContext('2d');
+var outlierRatePerTier = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ outlier_rate_tier_column|safe }},
+        datasets: [{
+            label: 'outlier-rate',
+            barThickness: 50,
+            data: {{ outlier_rate_tier }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(255, 159, 64, 0.7)',
+                'rgba(255, 205, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(201, 203, 207, 0.7)',
+            ],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)',
+            ],
+            borderwidth: 1,
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Tier',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Rate',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('outlierRatePerType').getContext('2d');
+var outlierRatePerType = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ outlier_rate_type_column|safe }},
+        datasets: [{
+            label: 'outlier-rate',
+            barThickness: 80,
+            data: {{ outlier_rate_type }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(255, 205, 86, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 205, 86)',
+                'rgb(54, 162, 235)',
+            ],
+            borderwidth: 1,
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Type',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Rate',
+                }
+            }
+        }
+    }
+});
+</script>
+<!-- kill vs. etc. -->
+<script>
+var ctx = document.getElementById('killWinPlacePerc').getContext('2d');
+var killWinPlacePerc = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ etc_kills }},
+        datasets: [{
+            label: 'winPlacePerc',
+            data: {{ winPlacePerc }},
+            borderColor: 'rgb(153, 102, 255)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Kill',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'WinPlacePerc',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('KillAssists').getContext('2d');
+var KillAssists = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ etc_kills }},
+        datasets: [{
+            label: 'assists',
+            data: {{ assists }},
+            borderColor: 'rgb(255, 205, 86)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Kill',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Assists',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('KillDBNOs').getContext('2d');
+var KillDBNOs = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ etc_kills }},
+        datasets: [{
+            label: 'DBNOs',
+            data: {{ DBNOs }},
+            borderColor: 'rgb(75, 192, 192)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Kill',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'DBNOs',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('KillDamageDealt').getContext('2d');
+var KillDamageDealt = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ etc_kills }},
+        datasets: [{
+            label: 'damageDealt',
+            data: {{ damageDealt }},
+            borderColor: 'rgb(255, 99, 132)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Kill',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'DamageDealt',
+                }
+            }
+        }
+    }
+});
+</script>
+<!-- numGroups vs. MatchDuration -->
+<script>
+var ctx = document.getElementById('numGroupsMatchDuration').getContext('2d');
+var numGroupsMatchDuration = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_columns }},
+        datasets: [{
+            label: 'matchDuration',
+            data: {{ numGroups_matchDuration }},
+            borderColor: 'rgb(201, 203, 207)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<!-- numGroups vs. MatchDuration per Match Type -->
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationSolo').getContext('2d');
+var numGroupsMatchDurationSolo = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_solo_columns }},
+        datasets: [{
+            label: 'solo',
+            data: {{ numGroups_matchDuration_solo }},
+            borderColor: 'rgb(255, 99, 132)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationDuo').getContext('2d');
+var numGroupsMatchDurationDuo = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_duo_columns }},
+        datasets: [{
+            label: 'duo',
+            data: {{ numGroups_matchDuration_duo }},
+            borderColor: 'rgb(255, 205, 86)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationSquad').getContext('2d');
+var numGroupsMatchDurationSquad = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_squad_columns }},
+        datasets: [{
+            label: 'squad',
+            data: {{ numGroups_matchDuration_squad }},
+            borderColor: 'rgb(54, 162, 235)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<!-- kill vs. winPlacePerc per Match Type -->
+<script>
+var ctx = document.getElementById('killWinPlacePercPerMatchType').getContext('2d');
+var killWinPlacePercPerMatchType = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ kills }},
+        datasets: [{
+            label: 'solo',
+            data: {{ kill_winPlacePerc_solo }},
+            borderColor: 'rgb(255, 99, 132)',
+        }, {
+            label: 'duo',
+            data: {{ kill_winPlacePerc_duo }},
+            borderColor: 'rgb(255, 205, 86)',
+        }, {
+            label: 'squad',
+            data: {{ kill_winPlacePerc_squad }},
+            borderColor: 'rgb(54, 162, 235)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'kills',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'winPlacecPerc',
+                }
+            }
+        }
+    }
+});
+</script>
+<!-- kill vs. winPlacePerc per Tier -->
+<script>
+var ctx = document.getElementById('killWinPlacePercPerTier').getContext('2d');
+var killWinPlacePercPerTier = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ kills }},
+        datasets: [{
+            label: 'bronze',
+            data: {{ kill_winPlacePerc_bronze }},
+            borderColor: 'rgb(255, 99, 132)',
+        }, {
+            label: 'silver',
+            data: {{ kill_winPlacePerc_silver }},
+            borderColor: 'rgb(255, 159, 64)',
+        }, {
+            label: 'gold',
+            data: {{ kill_winPlacePerc_gold }},
+            borderColor: 'rgb(255, 205, 86)',
+        }, {
+            label: 'platinum',
+            data: {{ kill_winPlacePerc_platinum }},
+            borderColor: 'rgb(75, 192, 192)',
+        }, {
+            label: 'diamond',
+            data: {{ kill_winPlacePerc_diamond }},
+            borderColor: 'rgb(54, 162, 235)',
+        }, {
+            label: 'master',
+            data: {{ kill_winPlacePerc_master }},
+            borderColor: 'rgb(153, 102, 255)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'kills',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'winPlacecPerc',
+                }
+            }
+        }
+    }
+});
+</script>
+<!-- numGroups vs. MatchDuration per Tier -->
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationBronze').getContext('2d');
+var numGroupsMatchDurationBronze = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_bronze_column }},
+        datasets: [{
+            label: 'bronze',
+            data: {{ numGroups_matchDuration_bronze }},
+            borderColor: 'rgb(255, 99, 132)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationSilver').getContext('2d');
+var numGroupsMatchDurationSilver = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_silver_column }},
+        datasets: [{
+            label: 'silver',
+            data: {{ numGroups_matchDuration_silver }},
+            borderColor: 'rgb(255, 159, 64)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationGold').getContext('2d');
+var numGroupsMatchDurationGold = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_gold_column }},
+        datasets: [{
+            label: 'gold',
+            data: {{ numGroups_matchDuration_gold }},
+            borderColor: 'rgb(255, 205, 86)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationPlatinum').getContext('2d');
+var numGroupsMatchDurationPlatinum = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_platinum_column }},
+        datasets: [{
+            label: 'platinum',
+            data: {{ numGroups_matchDuration_platinum }},
+            borderColor: 'rgb(75, 192, 192)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationDiamond').getContext('2d');
+var numGroupsMatchDurationDiamond = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_diamond_column }},
+        datasets: [{
+            label: 'diamond',
+            data: {{ numGroups_matchDuration_diamond }},
+            borderColor: 'rgb(54, 162, 235)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+var ctx = document.getElementById('numGroupsMatchDurationMaster').getContext('2d');
+var numGroupsMatchDurationMaster = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ numGroups_matchDuration_master_column }},
+        datasets: [{
+            label: 'master',
+            data: {{ numGroups_matchDuration_diamond }},
+            borderColor: 'rgb(153, 102, 255)',
+        }],
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'numGroups',
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'matchDuration',
+                }
+            }
+        }
+    }
+});
+</script>
+<script>
+    KillBoxPlot = document.getElementById('KillBoxPlot');
+    Plotly.plot(KillBoxPlot, {{ kill_boxplot|safe }}, {})
+</script>
+</html>

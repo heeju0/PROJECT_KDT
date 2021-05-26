@@ -1,0 +1,30 @@
+column,description
+DBNOs,적을 기절시킨 횟수 (Down But Not Out)
+assists,"아군이 킬했을 때, 플레이어가 같이 공격한 적의 수"
+boosts,부스트 아이템 사용 횟수
+damageDealt,입은 총 데미지. 스스로 입은 데미지는 제외함
+headshotKills,헤드샷으로 킬한 수
+heals,힐링 아이템 사용 횟수
+Id,플레이어의 id
+killPlace,매치에서 킬 수 랭킹
+killPoints,킬 수로 산정한 외부 랭킹 (엘로 랭킹과 유사)
+killStreaks,일정 시간동안 최대 킬 수
+kills,플레이어의 총 킬 수
+longestKill,킬과 킬 사이의 가장 먼 거리. 플레이어를 죽이고 멀리 운전하면 longestKill 값이 매우 커질 수 있기 때문에 오해의 소지가 있음
+matchDuration,매치 지속 시간 (초 단위)
+matchId,매치에 대한 id (훈련 데이터와 테스트 데이터에 중복값 없음)
+matchType,"게임 모드 (solo, duo, squad, solo-fpp, duo-fpp, squad-fpp). 이외의 모드는 이벤트나 커스텀 매치."
+rankPoints,엘로 랭킹
+revives,아군을 부활시킨 횟수
+rideDistance,탈 것으로 이동한 총 거리 (미터 단위)
+roadKills,탈 것에서 킬한 횟수
+swimDistance,헤엄으로 이동한 총 거리 (미터 단위)
+teamKills,아군을 킬한 횟수
+vehicleDestroys,탈 것을 파괴한 횟수
+walkDistance,걸은 총 거리 (미터 단위)
+weaponsAcquired,수집한 무기 갯수
+winPoints,승리 횟수로 산정한 외부 랭킹
+groupId,매치 내에서 그룹 id
+numGroups,해당 매치 내 기록된 그룹 수
+maxPlace,해당 매치 내 최악의 랭킹. numGroups 데이터와 일치하지 않을 수 있음
+winPlacePerc,타겟 데이터. 우승에 대한 확률 값으로 1에 가까울수록 순위가 높음
