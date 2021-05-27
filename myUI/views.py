@@ -1,43 +1,42 @@
 from django.shortcuts import render
 import pandas as pd
-import pickle
-import os
-THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-my_file = os.path.join(THIS_FOLDER, 'myfile.txt')
+import pickle, os
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Create your views here.
 def indexPage(request):
     return render(request, 'index.html', {})
 
 def proj1Page(request):
-    data_desc = pd.read_csv(os.path.join(THIS_FOLDER, '/data/desc.csv'))
-    col_desc = pd.read_csv(os.path.join(THIS_FOLDER, '/data/col_desc.csv'))
-    kill_counts = pd.read_csv(os.path.join(THIS_FOLDER, '/data/killCounts.csv'))
-    outlier_rate_tier = pd.read_csv(os.path.join(THIS_FOLDER, '/data/outlier_rate_tier.csv'))
-    outlier_rate_type = pd.read_csv(os.path.join(THIS_FOLDER, '/data/outlier_rate_type.csv'))
-    etc_per_kills = pd.read_csv(os.path.join(THIS_FOLDER, '/data/etc_per_kills.csv'))
-    numGroups_matchDuration = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration.csv'))
-    numGroups_matchDuration_squad = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_squad.csv'))
-    numGroups_matchDuration_duo = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_duo.csv'))
-    numGroups_matchDuration_solo = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_solo.csv'))
-    numGroups_matchDuration_bronze = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_bronze.csv'))
-    numGroups_matchDuration_silver = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_silver.csv'))
-    numGroups_matchDuration_gold = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_gold.csv'))
-    numGroups_matchDuration_platinum = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_platinum.csv'))
-    numGroups_matchDuration_diamond = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_diamond.csv'))
-    numGroups_matchDuration_master = pd.read_csv(os.path.join(THIS_FOLDER, '/data/numGroups_matchDuration_master.csv'))
-    kill_winPlacePerc_squad = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_squad.csv'))
-    kill_winPlacePerc_duo = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_duo.csv'))
-    kill_winPlacePerc_solo = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_solo.csv'))
-    kill_winPlacePerc_bronze = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_bronze.csv'))
-    kill_winPlacePerc_silver = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_silver.csv'))
-    kill_winPlacePerc_gold = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_gold.csv'))
-    kill_winPlacePerc_platinum = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_platinum.csv'))
-    kill_winPlacePerc_diamond = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_diamond.csv'))
-    kill_winPlacePerc_master = pd.read_csv(os.path.join(THIS_FOLDER, '/data/kill_winPlacePerc_master.csv'))
-    with open(os.path.join(THIS_FOLDER, '/data/reg_flat.pkl'), 'rb') as f:
+    data_desc = pd.read_csv(os.path.join(BASE_DIR, '/data/desc.csv'))
+    col_desc = pd.read_csv(os.path.join(BASE_DIR, '/data/col_desc.csv'))
+    kill_counts = pd.read_csv(os.path.join(BASE_DIR, '/data/killCounts.csv'))
+    outlier_rate_tier = pd.read_csv(os.path.join(BASE_DIR, '/data/outlier_rate_tier.csv'))
+    outlier_rate_type = pd.read_csv(os.path.join(BASE_DIR, '/data/outlier_rate_type.csv'))
+    etc_per_kills = pd.read_csv(os.path.join(BASE_DIR, '/data/etc_per_kills.csv'))
+    numGroups_matchDuration = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration.csv'))
+    numGroups_matchDuration_squad = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_squad.csv'))
+    numGroups_matchDuration_duo = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_duo.csv'))
+    numGroups_matchDuration_solo = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_solo.csv'))
+    numGroups_matchDuration_bronze = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_bronze.csv'))
+    numGroups_matchDuration_silver = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_silver.csv'))
+    numGroups_matchDuration_gold = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_gold.csv'))
+    numGroups_matchDuration_platinum = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_platinum.csv'))
+    numGroups_matchDuration_diamond = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_diamond.csv'))
+    numGroups_matchDuration_master = pd.read_csv(os.path.join(BASE_DIR, '/data/numGroups_matchDuration_master.csv'))
+    kill_winPlacePerc_squad = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_squad.csv'))
+    kill_winPlacePerc_duo = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_duo.csv'))
+    kill_winPlacePerc_solo = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_solo.csv'))
+    kill_winPlacePerc_bronze = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_bronze.csv'))
+    kill_winPlacePerc_silver = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_silver.csv'))
+    kill_winPlacePerc_gold = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_gold.csv'))
+    kill_winPlacePerc_platinum = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_platinum.csv'))
+    kill_winPlacePerc_diamond = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_diamond.csv'))
+    kill_winPlacePerc_master = pd.read_csv(os.path.join(BASE_DIR, '/data/kill_winPlacePerc_master.csv'))
+    with open(os.path.join(BASE_DIR, '/data/reg_flat.pkl'), 'rb') as f:
         data_flat = pickle.load(f)
-    with open(os.path.join(THIS_FOLDER, '/data/kill_boxplot.pkl'), 'rb') as f:
+    with open(os.path.join(BASE_DIR, '/data/kill_boxplot.pkl'), 'rb') as f:
         kill_boxplot = pickle.load(f)
     data_flat['desc_column'] = data_desc.columns.tolist()
     data_flat['desc'] = data_desc.values.tolist()
